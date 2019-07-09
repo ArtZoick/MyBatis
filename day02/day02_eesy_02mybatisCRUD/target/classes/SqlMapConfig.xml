@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- mybatis主配置文件-->
+<configuration>
+    <!--配置properties
+        可以在标签内部配置数据库连接信息 也可以通过外部文件来配置数据库连接信息
+        resource 属性：（常用）
+                用于指定配置文件的位置，是按照类路径来写的，必须存在于类路径下
+        URL属性：
+            URL:Uniform Resource Locator    统一资源定位符 可以唯一标志一个资源的位置
+            写法必须是
+                http://localhost:8080/mybatisserver/demo1Servlet
+                协议      主机    端口     URI
+            URI:Uniform Resource Identifier 统一资源标识符 是在应用中可以可以唯一标志一个资源的位置
+            URL>URI（精准性）
+    -->
+    <properties url="file:///C:/Users/zoick/OneDrive/Tomorrow/%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/MyBatis/day02/day02_eesy_02mybatisCRUD/src/main/resources/jdbcConfig.properties">
+<!--        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--        <property name="url" value="jdbc:mysql://localhost:3306/eesy_mybatis"/>-->
+<!--        <property name="username" value="root"/>-->
+<!--        <property name="password" value="root"/>-->
+    </properties>
+    
+    <!--使用typeAliases配置别名，他只能配置domain中类的别名-->
+    <typeAliases>
+        <!--typeAlias用于配置别名，type属性指定的是实体类中的全限定类名。alias属性指定别名，当指定了别名后不在区分大小写-->
+<!--    <typeAlias type="top.zoick.domain.User" alias="user"></typeAlias>-->
+
+        <!--用于指定要配置别名的包，当指定后，该包下的实体类都会注册别名，并且类名就是别名，不再区分大小写-->
+        <package name="top.zoick.domain"/>
+    </typeAliases>
+    
+    
+
+    <!-- 配置环境-->
+    <environments default="mysql">
+        <!-- 配置mysql的环境-->
+        <environment id="mysql">
+            <!-- 配置事务的类型-->
+            <transactionManager type="jdbc"></transactionManager>
+            <!-- 配置数据源（连接池）-->
+            <dataSource type="POOLED">
+                <!-- 配置链接数据库的四个基本信息-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件-->
+    <mappers>
+<!--        <mapper resource="top/zoick/dao/IUserDao.xml"/>-->
+        <!--package标签是用于指定dao接口所在的包，当指定了之后就不需要再写mapepr以及resource或者class了-->
+        <package name="top.zoick.dao"/>
+    </mappers>
+
+
+</configuration>

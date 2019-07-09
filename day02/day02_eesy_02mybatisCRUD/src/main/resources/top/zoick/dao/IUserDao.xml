@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zoick.dao.IUserDao">
+
+    <!--配置查询结果的列名和实体类的属性名的对应关系-->
+    <resultMap id="userMap" type="top.zoick.domain.User">
+        <!--主键字段的对应-->
+        <id property="userId" column="id"></id>
+        <!--非主键字段的对应-->
+        <result property="userName" column="username"></result>
+        <result property="userAddress" column="address"></result>
+        <result property="userSex" column="sex"></result>
+        <result property="userBirthday" column="birthday"></result>
+    </resultMap>
+
+
+
+
+    <!--配置查询所有  其中id不能乱写必须是dao接口中的方法  resultType写的是实体类的全路径-->
+    <select id="findAll" resultMap="userMap">
+        <!--实体类中的属性名和数据库表中元素名字匹配不上时，使用别名即可匹配。id为数据库中表的列名，userId为实体类中属性名-->
+        <!--select id as userId,username as userName,address as userAddress ,sex as userSex, birthday as userBirthday from user-->
+        select * from user
+</select>
+
+    <!--保存用户-->
+    <insert id="saveUser" parameterType="top.zoick.domain.User">
+        <!--配置插入操作后，获取插入数据的id-->
+            <!--keyProperty对应实体类属性名:id，keyColumn对应于数据库:id resultType为数据类型，order为在这条insert sql语句执行前还是执行后做-->
+        <selectKey keyProperty="userId" keyColumn="id" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert into user (username,address,sex,birthday) values (#{userName},#{userAddress},#{userSex},#{userBirthday})
+    </insert>
+
+    <!--更新用户-->
+    <update id="updateUser" parameterType="usER">
+        update user set username=#{userName},address=#{userAddress},sex=#{userSex},birthday=#{userBirthday} where id=#{userId}
+    </update>
+
+    <!--删除用户-->
+    <!--当参数值为基本类型或者基本类型包装类时，SQL语句中的占位符可以随意写-->
+    <delete id="deleteUser" parameterType="Integer">
+        delete from user where id = #{anyzhanweifu}
+    </delete>
+
+    <!--根据id查询用户-->
+    <select id="findByID" parameterType="INT" resultMap="userMap">
+        select * from user where id = #{uuuuuuid}
+    </select>
+
+    <!--根据名称模糊查询-->
+    <select id="findByName" parameterType="String" resultMap="userMap">
+        select * from user where username like #{namenamenamename}
+        <!--select * from user where username like '%${value}%'-->
+    </select>
+
+    <!--查询记录的总用户条数-->
+    <select id="findTotal" resultType="Integer">
+        select count(id) from user
+    </select>
+
+    <!--根据QueryVo的条件查询用户-->
+    <select id="findUserByVo" parameterType="top.zoick.domain.QueryVo" resultMap="userMap">
+        select * from user where username like #{user.username}
+    </select>
+
+</mapper>
