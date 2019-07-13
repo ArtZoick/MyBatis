@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zoick.dao.IRoleDao">
+    <!--定义role表的resultmap-->
+    <resultMap id="roleMap" type="role">
+        <!--此处id的column由于sql语句中将role表中的id改为rid，故column也要变为rid-->
+        <id property="roleId" column="rid"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleDesc" column="role_desc"/>
+        <collection property="users" ofType="user">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="address" property="address"/>
+            <result column="sex" property="sex"/>
+            <result column="birthday" property="birthday"/>
+        </collection>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="roleMap">
+        select u.*, r.id as rid,r.role_name,r.role_desc from role r
+         left outer join user_role ur on r.id=ur.rid
+         left outer join user u on u.id = ur.uid
+    </select>
+</mapper>

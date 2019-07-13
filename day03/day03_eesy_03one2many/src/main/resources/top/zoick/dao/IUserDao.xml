@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zoick.dao.IUserDao">
+    <!--定义封装user和account的resultMap type主表实体类-->
+    <resultMap id="userAccountMap" type="User">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="sex" column="sex"></result>
+        <result property="address" column="address"></result>
+        <result property="birthday" column="birthday"></result>
+        <!--一对多的关系映射，配置user封装accounts的内容-->
+        <!--其中的property指的是从表的集合引用 ofType从表实体类-->
+        <collection property="accounts" ofType="Account">
+            <id property="id" column="aid"></id>
+            <result property="uid" column="uid"></result>
+            <result property="money" column="money"></result>
+        </collection>
+    </resultMap>
+
+
+    <!--配置查询所有  其中id不能乱写必须是dao接口中的方法  resultType写的是实体类的全路径-->
+    <select id="findAll" resultMap="userAccountMap">
+          select * from user u left outer join account a on u.id = a.uid
+    </select>
+
+
+</mapper>
