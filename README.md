@@ -1,5 +1,2 @@
-# MyBatis_1源码
-## 笔记地址：https://zoick.top/post/MyBatis_1/
-
-# MyBatis_2源码
-## 笔记地址：https://zoick.top/post/MyBatis_2/
+# MyBatis相关笔记
+https://zoick.top/tag/MyBatis/
